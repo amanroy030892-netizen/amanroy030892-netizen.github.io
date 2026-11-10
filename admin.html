@@ -28,13 +28,12 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <span id="server-status-badge" class="text-xs text-emerald-400 font-semibold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800 flex items-center gap-1.5">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="server-status-text">🔒 Server API Authenticated</span>
+      <span class="text-xs font-mono bg-slate-800 text-amber-400 px-3 py-1 rounded-full border border-slate-700">
+        <i class="fa-solid fa-lock text-[10px] mr-1"></i> PASS: 6901027507
       </span>
-      <button id="admin-logout-btn" class="hidden px-3 py-1 bg-red-950/60 hover:bg-red-900 border border-red-800 text-red-300 text-xs font-bold rounded-full transition">
-        Logout
-      </button>
+      <span class="text-xs text-emerald-400 font-semibold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800">
+        ● Secured Link
+      </span>
     </div>
   </header>
 
@@ -43,60 +42,46 @@
 
     <!-- PASSWORD LOCK OVERLAY -->
     <div id="admin-auth-card" class="max-w-md mx-auto my-12 p-8 bg-slate-900 rounded-3xl border border-slate-800 text-center space-y-4 shadow-2xl">
-      <div class="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mx-auto border border-emerald-500/20">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h2 class="text-xl font-bold text-white">Master Security Admin Login</h2>
-      <p class="text-xs text-slate-400">Cryptographically authenticated access to verify ₹100 UTR and activate live vehicles</p>
-      <input type="password" id="admin-passcode" placeholder="Enter Master Admin Password" class="w-full py-3.5 px-4 text-center text-base font-mono tracking-widest bg-slate-950 border border-slate-800 rounded-2xl text-white focus:outline-none focus:border-emerald-500 transition">
-      <button id="admin-login-btn" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-2xl transition shadow-lg flex items-center justify-center gap-2">
+      <div class="w-16 h-16 rounded-full bg-amber-400/10 text-amber-400 flex items-center justify-center text-2xl mx-auto border border-amber-400/20">
         <i class="fa-solid fa-key"></i>
-        <span>AUTHENTICATE SESSION ➔</span>
+      </div>
+      <h2 class="text-xl font-bold text-white">Enter Admin Passcode</h2>
+      <p class="text-xs text-slate-400">Authorized access to verify driver ₹100 UTR and activate live vehicles</p>
+      <input type="password" id="admin-passcode" placeholder="Secret Key (6901027507 or admin123)" class="w-full py-3 px-4 text-center text-lg font-mono tracking-widest bg-slate-950 border border-slate-800 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+      <button id="admin-login-btn" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-2xl transition shadow-lg">
+        Unlock Dashboard ➔
       </button>
-      <p class="text-[11px] text-slate-500">Protected by Scrypt Key Derivation & HMAC-SHA256 Session Tokens</p>
     </div>
 
     <!-- AUTHENTICATED DASHBOARD -->
-    <div id="admin-dashboard" class="space-y-3.5 sm:space-y-5 hidden">
-      <!-- Top Metrics (Compact 2x2 on Mobile, 4-col on Desktop - 100% Single Screen Fit) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-        <div class="bg-slate-900/95 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-xs">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] sm:text-xs text-slate-400 font-semibold leading-tight">Pending Approvals</span>
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-          </div>
-          <p class="text-2xl sm:text-3xl font-black text-amber-400 my-0.5 tracking-tight" id="stat-pending">0</p>
-          <span class="text-[9px] sm:text-[10px] text-amber-300 font-medium">Action Required</span>
+    <div id="admin-dashboard" class="space-y-6 hidden">
+      <!-- Top Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+          <span class="text-xs text-slate-400 font-medium">Pending UTR Approvals</span>
+          <p class="text-3xl font-black text-amber-400 mt-1" id="stat-pending">1</p>
+          <span class="text-[10px] text-amber-300">Action Required</span>
         </div>
-        <div class="bg-slate-900/95 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-xs">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] sm:text-xs text-slate-400 font-semibold leading-tight">Live on Road</span>
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          </div>
-          <p class="text-2xl sm:text-3xl font-black text-emerald-400 my-0.5 tracking-tight" id="stat-live">2</p>
-          <span class="text-[9px] sm:text-[10px] text-emerald-400 font-medium">12hr Timer Active</span>
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+          <span class="text-xs text-slate-400 font-medium">Live Vehicles on Road</span>
+          <p class="text-3xl font-black text-emerald-400 mt-1" id="stat-live">3</p>
+          <span class="text-[10px] text-emerald-400">12hr Timer Active</span>
         </div>
-        <div class="bg-slate-900/95 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-xs">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] sm:text-xs text-slate-400 font-semibold leading-tight">Total Users</span>
-            <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-          </div>
-          <p class="text-2xl sm:text-3xl font-black text-blue-400 my-0.5 tracking-tight" id="stat-users">2</p>
-          <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium">Aadhaar Verified</span>
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+          <span class="text-xs text-slate-400 font-medium">Total Registered Users</span>
+          <p class="text-3xl font-black text-blue-400 mt-1" id="stat-users">3</p>
+          <span class="text-[10px] text-slate-400">Aadhaar Verified</span>
         </div>
-        <div class="bg-slate-900/95 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-xs">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] sm:text-xs text-slate-400 font-semibold leading-tight">Fee Collected</span>
-            <span class="w-2 h-2 rounded-full bg-amber-200"></span>
-          </div>
-          <p class="text-2xl sm:text-3xl font-black text-white my-0.5 tracking-tight" id="stat-fee">₹300</p>
-          <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium">₹100 / 12 Hours</span>
+        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+          <span class="text-xs text-slate-400 font-medium">Platform Fee Collected</span>
+          <p class="text-3xl font-black text-white mt-1" id="stat-fee">₹400</p>
+          <span class="text-[10px] text-slate-400">₹100 / 12 Hours</span>
         </div>
       </div>
 
       <!-- SECTION 1: PENDING UTR REQUESTS -->
-      <div class="bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-800 p-3.5 sm:p-5 space-y-3 sm:space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-2.5 sm:pb-3">
+      <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h2 class="text-base font-bold text-amber-300 flex items-center gap-2">
               <i class="fa-solid fa-receipt"></i>
@@ -149,13 +134,10 @@
   </main>
 
   <footer class="bg-slate-900 border-t border-slate-800 px-6 py-3 text-center text-xs text-slate-500">
-    SafarSaathi Master Security Admin Hub • Enterprise Security Architecture • Server-Authoritative Layer
+    SafarSaathi Master Security Admin Hub • Passcode Protected: 6901027507 / admin123
   </footer>
 
   <script>
-    // Global Session & Server State
-    let adminToken = sessionStorage.getItem('safarsaathi_admin_token') || null;
-    let isServerConnected = false;
     const STORAGE_KEY = 'safarsaathi_prod_db_v2';
 
     function getAdminFormattedDate(d = new Date()) {
@@ -212,32 +194,49 @@
       setTimeout(() => t.remove(), 4000);
     }
 
-    let DB = getDb() || {
-      registeredUsers: [],
-      usedUtrs: [],
-      pendingPosts: [],
-      activeDrivers: []
-    };
+    let DB = getDb();
+    if (!DB) {
+      DB = {
+        registeredUsers: [
+          { id: '9864012345', name: 'Mitali Kalita', city: 'Nagaon, Assam', role: 'driver' },
+          { id: '9876543210', name: 'Rahul Sharma', city: 'Guwahati, Assam', role: 'passenger' }
+        ],
+        usedUtrs: ['432198765432'],
+        pendingPosts: [
+          {
+            id: 'post_101',
+            driverId: '9435011223',
+            driverName: 'Bipul Saikia',
+            vehicleNo: 'AS-02-ER-3391',
+            utr: '887766554433',
+            fee: 100,
+            stand: 'Haibargaon Stand',
+            photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+          }
+        ],
+        activeDrivers: [
+          {
+            id: 'driver_1',
+            name: 'Mitali Kalita',
+            phone: '9864012345',
+            vehicleNo: 'AS-02-ER-4481',
+            stand: 'Clock Tower Stand',
+            dutyStatus: 'on_duty',
+            expiresAt: Date.now() + (11 * 3600 + 42 * 60) * 1000,
+            ridesToday: 4,
+            photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'
+          }
+        ]
+      };
+      saveDb(DB);
+    }
 
     function renderDashboard() {
-      const disk = getDb();
-      if (disk) {
-        if (!adminFbDb) {
-          DB = disk;
-        } else {
-          // If adminFbDb is connected, merge any local pending posts or active drivers
-          if (disk.pendingPosts && disk.pendingPosts.length > 0 && DB.pendingPosts.length === 0) {
-            DB.pendingPosts = disk.pendingPosts;
-          }
-          if (disk.activeDrivers && disk.activeDrivers.length > 0 && DB.activeDrivers.length === 0) {
-            DB.activeDrivers = disk.activeDrivers;
-          }
-        }
-      }
+      DB = getDb() || DB;
       document.getElementById('stat-pending').textContent = DB.pendingPosts.length;
       document.getElementById('stat-live').textContent = DB.activeDrivers.length;
       document.getElementById('stat-users').textContent = DB.registeredUsers.length;
-      document.getElementById('stat-fee').textContent = '₹' + ((DB.activeDrivers.length + (DB.pendingPosts.length > 0 ? 1 : 0)) * 100);
+      document.getElementById('stat-fee').textContent = `₹${(DB.activeDrivers.length + 1) * 100}`;
 
       // Pending UTRs
       const pendingList = document.getElementById('pending-utr-list');
@@ -272,33 +271,7 @@
             </div>
           `;
 
-          item.querySelector('.approve-btn').addEventListener('click', async () => {
-            // 1. Authoritative Server API Approval
-            if (adminToken && isServerConnected) {
-              try {
-                const res = await fetch('/api/admin/approve', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${adminToken}`
-                  },
-                  body: JSON.stringify({ postId: post.id })
-                });
-                const resData = await res.json();
-                if (res.ok) {
-                  showAdminToast('Server Approved!', `${post.driverName} (${post.vehicleNo}) verified on backend.`, 'success');
-                  await loadDashboardFromServer();
-                  return;
-                } else {
-                  showAdminToast('Server Error!', resData.error || 'Server rejected approval', 'error');
-                  return;
-                }
-              } catch (e) {
-                console.warn('Server approval error, using local fallback:', e);
-              }
-            }
-
-            // 2. Standalone Offline Fallback
+          item.querySelector('.approve-btn').addEventListener('click', () => {
             if (DB.usedUtrs.includes(post.utr)) {
               showAdminToast('Duplicate UTR Detected!', `UTR ${post.utr} has already been utilized.`, 'error');
               return;
@@ -313,28 +286,11 @@
               vehicleNo: post.vehicleNo,
               photo: post.photo,
               stand: post.stand,
-              lat: post.lat || 26.3465,
-              lng: post.lng || 92.6815,
               dutyStatus: 'on_duty',
               expiresAt: Date.now() + 12 * 3600 * 1000,
               ridesToday: 0
             };
 
-                        if (post.type === 'carpool' || post.type === 'carpooling') {
-              const newCarpool = {
-                id: 'cp_' + Date.now(),
-                from: post.from || 'Guwahati',
-                to: post.to || 'Jorhat',
-                departureTime: post.departureTime || '03:00 PM',
-                carNo: post.vehicleNo,
-                driverName: post.driverName,
-                driverUpi: post.driverUpi || '6901027507@nyes',
-                fare: post.fare || 350,
-                availableSeats: post.seats || 3
-              };
-              if (!DB.carpools) DB.carpools = [];
-              DB.carpools.unshift(newCarpool);
-            }
             DB.activeDrivers.unshift(newDriverObj);
             saveDb(DB);
 
@@ -345,34 +301,14 @@
             }
 
             renderDashboard();
-            showAdminToast('Driver Approved!', `${post.driverName} (${post.vehicleNo}) is now LIVE for 12 hours!`, 'success');
+            showAdminToast('Driver Approved!', `${post.driverName} is now live on radar for 12 hours.`, 'success');
           });
 
-          item.querySelector('.reject-btn').addEventListener('click', async () => {
-            if (adminToken && isServerConnected) {
-              try {
-                const res = await fetch('/api/admin/reject', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${adminToken}`
-                  },
-                  body: JSON.stringify({ postId: post.id })
-                });
-                if (res.ok) {
-                  showAdminToast('Post Rejected', `Request removed on server`, 'info');
-                  await loadDashboardFromServer();
-                  return;
-                }
-              } catch (e) {}
-            }
+          item.querySelector('.reject-btn').addEventListener('click', () => {
             DB.pendingPosts = DB.pendingPosts.filter(p => p.id !== post.id);
             saveDb(DB);
-            if (adminFbDb) {
-              adminFbDb.ref('pending_posts/' + post.id).remove();
-            }
             renderDashboard();
-            showAdminToast('Post Rejected', `Request for ${post.vehicleNo} has been removed.`, 'info');
+            showAdminToast('Request Rejected', '', 'info');
           });
 
           pendingList.appendChild(item);
@@ -383,8 +319,7 @@
       const liveTable = document.getElementById('live-rickshaws-table');
       liveTable.innerHTML = '';
       DB.activeDrivers.forEach(d => {
-        const expTime = d.expiresAt ? (typeof d.expiresAt === 'number' ? d.expiresAt : Date.parse(d.expiresAt) || (Date.now() + 12 * 3600 * 1000)) : (Date.now() + 12 * 3600 * 1000);
-        const remainingMs = Math.max(0, expTime - Date.now());
+        const remainingMs = Math.max(0, d.expiresAt - Date.now());
         const hrs = Math.floor(remainingMs / 3600000);
         const mins = Math.floor((remainingMs % 3600000) / 60000);
         const secs = Math.floor((remainingMs % 60000) / 1000);
@@ -426,124 +361,38 @@
       });
     }
 
-    // Check server API health
-    async function checkServerHealth() {
-      try {
-        const res = await fetch('/api/public/drivers', { method: 'GET' });
-        if (res.ok) {
-          isServerConnected = true;
-          const statusText = document.getElementById('server-status-text');
-          if (statusText) statusText.textContent = '🔒 Node.js API Online';
-          return;
-        }
-      } catch (e) {}
-      isServerConnected = false;
-      const statusText = document.getElementById('server-status-text');
-      if (statusText) statusText.textContent = '⚡ GitHub Cloud Mode';
-    }
-    checkServerHealth();
+    document.getElementById('admin-login-btn').addEventListener('click', () => {
+      const code = document.getElementById('admin-passcode').value.trim();
+      if (code === '6901027507' || code === 'admin123') {
+        document.getElementById('admin-auth-card').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        renderDashboard();
+        showAdminToast('Login Successful!', 'Admin Security Hub Active', 'success');
 
-    function unlockDashboard() {
-      document.getElementById('admin-auth-card').classList.add('hidden');
-      document.getElementById('admin-dashboard').classList.remove('hidden');
-      const logoutBtn = document.getElementById('admin-logout-btn');
-      if (logoutBtn) logoutBtn.classList.remove('hidden');
-      renderDashboard();
-      if (adminToken && isServerConnected) {
-        loadDashboardFromServer();
-      }
-    }
-
-    // Auto-login if valid session token in sessionStorage
-    if (adminToken) {
-      unlockDashboard();
-    }
-
-    // Logout Handler
-    const logoutBtn = document.getElementById('admin-logout-btn');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        sessionStorage.removeItem('safarsaathi_admin_token');
-        adminToken = null;
-        window.location.reload();
+    // Realtime Firebase Cloud Listener for Admin Hub
+    if (adminFbDb) {
+      adminFbDb.ref('pending_posts').on('value', snap => {
+        const val = snap.val();
+        DB.pendingPosts = val ? Object.keys(val).map(k => ({ id: k, ...val[k] })) : [];
+        renderDashboard();
+      });
+      adminFbDb.ref('active_drivers').on('value', snap => {
+        const val = snap.val();
+        DB.activeDrivers = val ? Object.keys(val).map(k => ({ id: k, ...val[k] })) : [];
+        renderDashboard();
+      });
+      adminFbDb.ref('registered_users').on('value', snap => {
+        const val = snap.val();
+        DB.registeredUsers = val ? Object.keys(val).map(k => ({ id: k, ...val[k] })) : [];
+        renderDashboard();
       });
     }
 
-    // Authenticate session (Dual-engine: Node.js API if present, or Web Crypto SHA-256 for GitHub Pages)
-    document.getElementById('admin-login-btn').addEventListener('click', async () => {
-      const code = document.getElementById('admin-passcode').value.trim();
-      if (!code) {
-        showAdminToast('Input Required', 'Please enter your admin password', 'error');
-        return;
-      }
-
-      // 1. Try Node.js server API if running on full server (Render/VPS/Localhost)
-      try {
-        const resp = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: code })
-        });
-        if (resp.ok) {
-          const data = await resp.json();
-          if (data.token) {
-            adminToken = data.token;
-            sessionStorage.setItem('safarsaathi_admin_token', adminToken);
-            isServerConnected = true;
-            unlockDashboard();
-            showAdminToast('Authenticated!', 'Session granted by Node.js backend', 'success');
-            return;
-          }
-        }
-      } catch (err) {
-        // Expected when running on static GitHub Pages
-      }
-
-      // 2. Cryptographic SHA-256 Web Crypto verification for GitHub Pages (Zero plaintext in source!)
-      try {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(code);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-        // Cryptographic SHA-256 hashes of master admin passcodes (No plaintext secrets!)
-        const ALLOWED_HASHES = [
-          '51c397f1caaa56ef0729caff9a02415a123815c783017f1ae878e93f9e9f1b58', // Master Admin Pin (6901027507)
-          '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9'  // Master Backup Key (admin123)
-        ];
-
-        if (ALLOWED_HASHES.includes(hashHex)) {
-          adminToken = 'gh_session_' + Date.now();
-          sessionStorage.setItem('safarsaathi_admin_token', adminToken);
-          unlockDashboard();
-          showAdminToast('Authenticated!', 'Cloud Firebase & Realtime Sync Active', 'success');
-        } else {
-          showAdminToast('Access Denied!', 'Invalid master admin password', 'error');
-        }
-      } catch (e) {
-        showAdminToast('Verification Error', 'Could not verify credentials', 'error');
+        setInterval(renderDashboard, 1000);
+      } else {
+        showAdminToast('Access Denied!', 'Please enter valid passcode (6901027507 or admin123)', 'error');
       }
     });
-
-    async function loadDashboardFromServer() {
-      if (!adminToken) return false;
-      try {
-        const res = await fetch('/api/admin/dashboard', {
-          headers: { 'Authorization': `Bearer ${adminToken}` }
-        });
-        if (res.ok) {
-          const sData = await res.json();
-          DB.pendingPosts = sData.pendingPosts || [];
-          DB.activeDrivers = sData.activeDrivers || [];
-          renderDashboard();
-          return true;
-        }
-      } catch (e) {
-        console.warn('Could not load from server API:', e);
-      }
-      return false;
-    }
 
     document.getElementById('refresh-live-btn').addEventListener('click', () => {
       renderDashboard();
