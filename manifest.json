@@ -1,0 +1,10 @@
+{
+  "name": "SafarSaathi - E-Rickshaw & Carpooling Super App",
+  "short_name": "SafarSaathi",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#064e3b",
+  "theme_color": "#059669",
+  "orientation": "portrait",
+  "description": "Direct E-Rickshaw Radar & Carpooling Seat Booking with \u20b90 Commission."
+}

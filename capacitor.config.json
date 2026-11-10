@@ -1,0 +1,12 @@
+{
+  "appId": "com.safarsaathi.app",
+  "appName": "SafarSaathi",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

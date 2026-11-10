@@ -1,0 +1,16 @@
+{
+  "name": "safarsaathi",
+  "version": "2.0.0",
+  "description": "SafarSaathi - Assam E-Rickshaw & Carpooling Super App (Production-Grade Enterprise Server & Security Architecture)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "sync": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0"
+  }
+}

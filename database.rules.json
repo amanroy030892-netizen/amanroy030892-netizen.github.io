@@ -1,0 +1,34 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "active_drivers": {
+      ".read": true,
+      ".write": "auth != null && auth.token.admin === true",
+      "$driver_id": {
+        ".validate": "newData.hasChildren(['id', 'vehicleNo', 'dutyStatus', 'expiresAt'])"
+      }
+    },
+
+    "pending_posts": {
+      ".read": "auth != null && auth.token.admin === true",
+      "$post_id": {
+        ".write": "!data.exists() && newData.exists()",
+        ".validate": "newData.hasChildren(['id', 'vehicleNo', 'utr', 'fee']) && newData.child('utr').isString() && newData.child('utr').val().length == 12 && newData.child('fee').val() == 100"
+      }
+    },
+
+    "used_utrs": {
+      ".read": false,
+      ".write": "auth != null && auth.token.admin === true"
+    },
+
+    "registered_users": {
+      ".read": "auth != null",
+      "$user_id": {
+        ".write": "auth != null && (auth.uid == $user_id || auth.token.admin === true)"
+      }
+    }
+  }
+}
