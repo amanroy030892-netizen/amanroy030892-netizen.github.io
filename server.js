@@ -322,6 +322,21 @@ const server = http.createServer(async (req, res) => {
         status: 'active'
       };
 
+            if (post.type === 'carpool' || post.type === 'carpooling') {
+        const newCarpool = {
+          id: 'cp_' + Date.now(),
+          from: post.from || 'Guwahati',
+          to: post.to || 'Jorhat',
+          departureTime: post.departureTime || '03:00 PM',
+          carNo: post.vehicleNo,
+          driverName: post.driverName,
+          driverUpi: post.driverUpi || '6901027507@nyes',
+          fare: post.fare || 350,
+          availableSeats: post.seats || 3
+        };
+        if (!db.carpools) db.carpools = [];
+        db.carpools.unshift(newCarpool);
+      }
       db.activeDrivers.unshift(newDriver);
       writeDb(db);
 

@@ -320,6 +320,21 @@
               ridesToday: 0
             };
 
+                        if (post.type === 'carpool' || post.type === 'carpooling') {
+              const newCarpool = {
+                id: 'cp_' + Date.now(),
+                from: post.from || 'Guwahati',
+                to: post.to || 'Jorhat',
+                departureTime: post.departureTime || '03:00 PM',
+                carNo: post.vehicleNo,
+                driverName: post.driverName,
+                driverUpi: post.driverUpi || '6901027507@nyes',
+                fare: post.fare || 350,
+                availableSeats: post.seats || 3
+              };
+              if (!DB.carpools) DB.carpools = [];
+              DB.carpools.unshift(newCarpool);
+            }
             DB.activeDrivers.unshift(newDriverObj);
             saveDb(DB);
 

@@ -669,7 +669,7 @@
             </div>
           </div>
 
-          <button id="wcard-1-next-btn" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+          <button id="wcard-1-next-btn" type="button" onclick="handleWcard1Next()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm rounded-xl transition shadow-lg flex items-center justify-center gap-2">
             <span>Continue to Live Selfie ➔</span>
           </button>
         </div>
@@ -799,7 +799,7 @@
               Open your UPI app payment receipt, copy the 12-digit UTR (e.g. 432198765432), and paste it below:
             </p>
             <input type="text" id="post-utr-no" maxlength="12" inputmode="numeric" placeholder="e.g. 432198765432" class="w-full px-4 py-3.5 text-lg font-mono tracking-widest font-black bg-[#041c14] text-amber-300 border-2 border-amber-400/80 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none placeholder:text-slate-600">
-            <button id="submit-driver-post-btn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl transition shadow-xl flex items-center justify-center gap-2">
+            <button id="submit-driver-post-btn" type="button" onclick="handleDriverPostSubmit()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl transition shadow-xl flex items-center justify-center gap-2">
               <i class="fa-solid fa-paper-plane"></i>
               <span>SUBMIT ₹100 UTR FOR ADMIN APPROVAL ➔</span>
             </button>
@@ -874,7 +874,7 @@
               Your ₹100 listing fee and 12-digit UTR are submitted to the Master Security Admin Hub. Your vehicle will go live automatically the moment Admin approves your UTR.
             </p>
 
-            <button id="check-approval-btn" class="w-full py-2.5 px-3 bg-[#0e4e3a] hover:bg-[#105e47] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 border border-emerald-500/30 transition">
+            <button id="check-approval-btn" type="button" onclick="handleCheckApproval()" class="w-full py-2.5 px-3 bg-[#0e4e3a] hover:bg-[#105e47] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 border border-emerald-500/30 transition">
               <i class="fa-solid fa-arrows-rotate"></i>
               <span>Check Admin Approval Now</span>
             </button>
@@ -1223,7 +1223,7 @@
         </div>
       </div>
 
-      <button id="view-terms-btn" class="w-full py-2 bg-[#041c14] hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition text-center">
+      <button id="view-terms-btn" type="button" onclick="document.getElementById('legal-modal').classList.remove('hidden')" class="w-full py-2 bg-[#041c14] hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition text-center">
         📄 View Privacy Policy & Terms of Service
       </button>
 
@@ -1242,7 +1242,7 @@
           <h3 class="font-bold text-sm">Privacy Policy & Terms of Service</h3>
           <p class="text-[10px] text-slate-400">SafarSaathi Community Platform</p>
         </div>
-        <button id="close-legal-modal-btn" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-xs">
+        <button id="close-legal-modal-btn" type="button" onclick="document.getElementById('legal-modal').classList.add('hidden')" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-xs">
           ✕
         </button>
       </div>
@@ -1277,7 +1277,7 @@
       </div>
 
       <div class="p-3 bg-[#021610] border-t border-[#0e4a38] text-center">
-        <button id="accept-legal-btn" class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition shadow-xs">
+        <button id="accept-legal-btn" type="button" onclick="document.getElementById('legal-modal').classList.add('hidden')" class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl transition shadow-xs">
           I Understand and Agree (Accept)
         </button>
       </div>
@@ -2000,6 +2000,117 @@
     }
 
     /* --- DOM EVENT ATTACHMENTS & INITIALIZATION --- */
+    
+    window.handleWcard1Next = function() {
+      const vnoInput = document.getElementById('post-vehicle-no');
+      const vno = vnoInput ? vnoInput.value.trim() : '';
+      if (!vno) {
+        showToast('Vehicle Plate Required', 'Please enter your registered vehicle plate number', 'error');
+        if (vnoInput) vnoInput.focus();
+        playBeep(250, 0.2, 'sawtooth');
+        return;
+      }
+      showWizardStep(2);
+      playBeep(600, 0.15, 'sine');
+    };
+
+    window.handleCheckApproval = function() {
+      showToast('Syncing with Admin Hub...', 'Checking realtime Jana Small Finance Bank UTR verification status...', 'info');
+      checkDriverApprovalStatus();
+    };
+
+    window.handleDriverPostSubmit = function() {
+      const utrInput = document.getElementById('post-utr-no');
+      const utr = utrInput ? utrInput.value.trim() : '';
+      if (!utr || utr.length < 12) {
+        showToast('Invalid UTR', 'Please enter a valid 12-digit transaction UTR number', 'error');
+        if (utrInput) utrInput.focus();
+        playBeep(250, 0.2, 'sawtooth');
+        return;
+      }
+
+      if (DB.usedUtrs && DB.usedUtrs.includes(utr)) {
+        showToast('Duplicate Blocked!', 'This UTR has already been utilized. Duplicate entries are blocked.', 'error');
+        playBeep(250, 0.2, 'sawtooth');
+        return;
+      }
+
+      const vPlate = (document.getElementById('post-vehicle-no') ? document.getElementById('post-vehicle-no').value.trim().toUpperCase() : '') || 'AS 02 ER 4481';
+      const dName = (document.getElementById('post-driver-name') ? document.getElementById('post-driver-name').value.trim() : '') || (DB.currentUser && DB.currentUser.name) || 'Mitali Kalita';
+
+      submittedDriverPost = {
+        id: 'post_' + Date.now(),
+        driverId: (DB.currentUser && DB.currentUser.id) || 'driver_' + Date.now(),
+        driverName: dName,
+        vehicleNo: vPlate,
+        type: postingType,
+        utr: utr,
+        submittedAt: getAutoFutureTime(-0.2) + ' (Today)',
+        fee: 100,
+        photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+        stand: 'Clock Tower Stand',
+        lat: 26.3465,
+        lng: 92.6815,
+        status: 'pending_approval'
+      };
+
+      if (postingType === 'carpool' || postingType === 'carpooling') {
+        submittedDriverPost.from = (document.getElementById('post-carpool-from') ? document.getElementById('post-carpool-from').value.trim() : '') || 'Guwahati';
+        submittedDriverPost.to = (document.getElementById('post-carpool-to') ? document.getElementById('post-carpool-to').value.trim() : '') || 'Jorhat';
+        submittedDriverPost.departureTime = (document.getElementById('post-carpool-time') ? document.getElementById('post-carpool-time').value.trim() : '') || getAutoFutureTime(2.0);
+        submittedDriverPost.seats = parseInt(document.getElementById('post-carpool-seats')?.value) || 3;
+        submittedDriverPost.fare = parseInt(document.getElementById('post-carpool-fare')?.value) || 350;
+        submittedDriverPost.driverUpi = (document.getElementById('post-driver-upi') ? document.getElementById('post-driver-upi').value.trim() : '') || '6901027507@nyes';
+      }
+
+      if (!DB.pendingPosts) DB.pendingPosts = [];
+      DB.pendingPosts.push(submittedDriverPost);
+      saveDb(DB);
+
+      // Populate Card 5 Details
+      const rVNo = document.getElementById('review-vehicle-no');
+      const rDName = document.getElementById('review-driver-name');
+      const rUtr = document.getElementById('review-utr-no');
+      if (rVNo) rVNo.textContent = submittedDriverPost.vehicleNo;
+      if (rDName) rDName.textContent = submittedDriverPost.driverName;
+      if (rUtr) rUtr.textContent = submittedDriverPost.utr;
+
+      // 1. Submit to Node.js Authoritative Backend Server API
+      try {
+        fetch('/api/driver/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submittedDriverPost)
+        }).then(r => r.json()).then(resData => {
+          if (resData.success) {
+            console.log('Post registered on authoritative backend server:', resData.post.id);
+          }
+        }).catch(err => {
+          console.warn('Backend server offline, using local/Firebase queue:', err);
+        });
+      } catch(e) {}
+
+      // 2. Sync with Firebase Realtime Database
+      const activeFbInstance = firebaseDb || window.firebaseDb || window.fbDb;
+      if (activeFbInstance) {
+        try {
+          activeFbInstance.ref('pending_posts/' + submittedDriverPost.id).set(submittedDriverPost);
+          console.log('Driver post synced to Firebase pending_posts:', submittedDriverPost.id);
+        } catch(e) {
+          console.warn('Firebase pending_posts sync error:', e);
+        }
+      }
+
+      showToast('Submitted for Review!', 'Your ₹100 UTR is in review. Live console activates the moment Admin approves.', 'info');
+      playBeep(750, 0.2, 'triangle');
+
+      showWizardStep(5);
+
+      if (approvalPollInterval) clearInterval(approvalPollInterval);
+      approvalPollInterval = setInterval(checkDriverApprovalStatus, 2000);
+    };
+
+
     window.addEventListener('DOMContentLoaded', () => {
       initMap();
       renderCarpoolRides();
@@ -2784,6 +2895,33 @@
 
           showToast('Logged Out', 'You have been logged out. Log in or create a new account.', 'info');
         });
+
+      // Privacy Policy & Terms Modal Handlers
+      const viewTermsBtn = document.getElementById('view-terms-btn');
+      const closeLegalBtn = document.getElementById('close-legal-modal-btn');
+      const acceptLegalBtn = document.getElementById('accept-legal-btn');
+      const legalModal = document.getElementById('legal-modal');
+
+      if (viewTermsBtn && legalModal) {
+        viewTermsBtn.addEventListener('click', () => {
+          legalModal.classList.remove('hidden');
+          playBeep(500, 0.1, 'sine');
+        });
+      }
+      if (closeLegalBtn && legalModal) {
+        closeLegalBtn.addEventListener('click', () => {
+          legalModal.classList.add('hidden');
+          playBeep(400, 0.1, 'sine');
+        });
+      }
+      if (acceptLegalBtn && legalModal) {
+        acceptLegalBtn.addEventListener('click', () => {
+          legalModal.classList.add('hidden');
+          showToast('Terms Accepted', 'Thank you for reviewing SafarSaathi community guidelines.', 'success');
+          playBeep(650, 0.15, 'sine');
+        });
+      }
+
       }
 
       // Initialize UI on startup
