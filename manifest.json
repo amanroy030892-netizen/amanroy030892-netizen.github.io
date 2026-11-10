@@ -6,5 +6,13 @@
   "background_color": "#064e3b",
   "theme_color": "#059669",
   "orientation": "portrait",
-  "description": "Direct E-Rickshaw Radar & Carpooling Seat Booking with \u20b90 Commission."
+  "description": "Direct E-Rickshaw Radar & Carpooling Seat Booking with \u20b90 Commission.",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
